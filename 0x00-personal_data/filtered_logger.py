@@ -5,7 +5,7 @@ from typing import List
 import logging
 
 
-PII_FIELDS = ('phone', 'ssn', 'password', 'ip', 'last_login')
+PII_FIELDS = ("phone", "ssn", "password", "ip", "last_login")
 
 
 def filter_datum(
@@ -15,18 +15,21 @@ def filter_datum(
     """returns the log message obfuscated"""
     for fld in fields:
         message = re.sub(
-                rf'{fld}=[^{separator}]*', f"{fld}={redaction}", message)
+                rf'{fld}=[^{separator}]*', f'{fld}={redaction}', message)
     return message
 
 
 def get_logger() -> logging.Logger:
     """ takes no arguments and returns a logging.Logger object"""
+
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
     logger.propagate = False
+
     hdlr = logging.StreamHandler()
     hdlr.setFormatter(RedactingFormatter(list(PII_FIELDS)))
     logger.addHandler(hdlr)
+
     return logger
 
 
