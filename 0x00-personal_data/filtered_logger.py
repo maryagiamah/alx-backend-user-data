@@ -85,5 +85,5 @@ class RedactingFormatter(logging.Formatter):
         return super().format(record)
 
 
-if __name__ == '__main__':
-    main()
+#if __name__ == '__main__':
+#   main()
