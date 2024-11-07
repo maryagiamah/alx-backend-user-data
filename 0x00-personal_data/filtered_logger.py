@@ -38,12 +38,27 @@ def get_logger() -> logging.Logger:
 def get_db() -> mysql.connector.connection.MySQLConnection:
     """returns a connector to the database"""
 
-    return mysql.connector.connect(
+    return mysql.connector.connection.MySQLConnection(
             host=os.getenv('PERSONAL_DATA_DB_HOST'),
             user=os.getenv('PERSONAL_DATA_DB_USERNAME'),
             passwd=os.getenv('PERSONAL_DATA_DB_PASSWORD'),
             db=os.getenv('PERSONAL_DATA_DB_NAME')
         )
+
+
+def main():
+    """main"""
+    db = get_db()
+    cursor = db.cursor()
+
+    users = cursor.execute("SELECT * FROM users;")
+    logger = get_logger()
+
+    for row in cursor:
+        print(row[0])
+
+    cursor.close()
+    db.close()
 
 
 class RedactingFormatter(logging.Formatter):
@@ -68,3 +83,7 @@ class RedactingFormatter(logging.Formatter):
                 self.SEPARATOR
             )
         return super().format(record)
+
+
+if __name__ == '__main__':
+    main()
