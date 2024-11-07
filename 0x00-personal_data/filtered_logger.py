@@ -23,6 +23,7 @@ def get_logger() -> logging.Logger:
     """ takes no arguments and returns a logging.Logger object"""
     logger = logging.getLogger("user_data")
     logger.setLevel(logging.INFO)
+    logger.propagate = False
     hdlr = logging.StreamHandler()
     hdlr.setFormatter(RedactingFormatter(list(PII_FIELDS)))
     logger.addHandler(hdlr)
