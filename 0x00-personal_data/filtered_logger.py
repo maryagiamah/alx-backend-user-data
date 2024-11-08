@@ -36,6 +36,7 @@ def get_logger() -> logging.Logger:
 
 
 def get_db() -> mysql.connector.connection.MySQLConnection:
+    """return this """
     config = {
             'user': os.getenv('PERSONAL_DATA_DB_USERNAME', 'root'),
             'password': os.getenv('PERSONAL_DATA_DB_PASSWORD', ''),
