@@ -7,7 +7,7 @@ import mysql.connector
 import os
 
 
-PII_FIELDS = ("phone", "ssn", "password", "ip", "last_login")
+PII_FIELDS = ("email", "ssn", "password", "name", "phone")
 
 
 def filter_datum(
