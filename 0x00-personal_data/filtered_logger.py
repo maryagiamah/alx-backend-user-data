@@ -47,6 +47,24 @@ def get_db() -> mysql.connector.connection.MySQLConnection:
     return mysql.connector.connect(**config)
 
 
+def main():
+    """main func"""
+
+    db = get_db()
+    cur = db.cursor()
+    cur.execute("SELECT * FROM users")
+    fld_nm = [col[0] for col in cur.description]
+
+    logger = get_logger()
+
+    for row in cur.fetchall():
+        message = ' '.join([f'{fld}={col};' for col, fld in zip(row, fld_nm)])
+        logger.info(message)
+
+    cur.close()
+    db.close()
+
+
 class RedactingFormatter(logging.Formatter):
     """ Redacting Formatter class
         """
@@ -69,3 +87,7 @@ class RedactingFormatter(logging.Formatter):
                 self.SEPARATOR
             )
         return super().format(record)
+
+
+if __name__ == '__main__':
+    main()
