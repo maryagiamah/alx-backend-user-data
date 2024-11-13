@@ -2,6 +2,7 @@
 """Create the class Auth"""
 from flask import request
 from typing import List, TypeVar
+from os import environ
 
 
 class Auth:
@@ -25,3 +26,11 @@ class Auth:
     def current_user(self, request=None) -> TypeVar('User'):
         """returns None"""
         return None
+
+    def session_cookie(self, request=None):
+        """returns a cookie value from a request"""
+
+        if request is None:
+            return None
+
+        return request.cookies.get(environ.get('SESSION_NAME'), None)
