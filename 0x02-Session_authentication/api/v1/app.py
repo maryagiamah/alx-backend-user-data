@@ -38,7 +38,8 @@ def filter_request():
             '/api/v1/auth_session/login/',
             '/api/v1/forbidden/']
         ):
-            if not auth.authorization_header(request):
+            cookie = auth.session_cookie(request)
+            if not auth.authorization_header(request) and cookie is None:
                 abort(401)
             if not auth.current_user(request):
                 abort(403)
