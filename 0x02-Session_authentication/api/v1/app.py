@@ -37,7 +37,7 @@ def filter_request():
             '/api/v1/unauthorized/',
             '/api/v1/auth_session/login/',
             '/api/v1/forbidden/']
-        ):)
+        ):
             if not auth.authorization_header(request):
                 abort(401)
             if not auth.current_user(request):
