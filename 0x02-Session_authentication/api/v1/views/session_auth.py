@@ -34,4 +34,4 @@ def login():
             res = jsonify(user.to_json())
             res.set_cookie(environ.get('SESSION_NAME'), sess_id)
             return res
-        return jsonify({"error": "wrong password"}), 401
+    return jsonify({"error": "wrong password"}), 401
