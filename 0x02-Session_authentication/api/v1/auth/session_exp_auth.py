@@ -46,3 +46,4 @@ class SessionExpAuth(SessionAuth):
                         return user_id
         except Exception:
             return None
+        return None
