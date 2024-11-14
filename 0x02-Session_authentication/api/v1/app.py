@@ -26,6 +26,9 @@ elif auth_type == 'basic_auth':
 elif auth_type == 'session_auth':
     from api.v1.auth.session_auth import SessionAuth
     auth = SessionAuth()
+elif auth_type == 'session_exp_auth':
+    from api.v1.auth.session_exp_auth import SessionExpAuth
+    auth = SessionExpAuth()
 
 
 @app.before_request
@@ -39,7 +42,7 @@ def filter_request():
             '/api/v1/forbidden/']
         ):
             cookie = auth.session_cookie(request)
-            if not auth.authorization_header(request) and cookie is None:
+            if auth.authorization_header(request) is None and cookie is None:
                 abort(401)
             if not auth.current_user(request):
                 abort(403)
