@@ -11,7 +11,7 @@ class SessionExpAuth(SessionAuth):
     def __init__(self):
         """Init Method"""
         try:
-            ses_dur = environ.get('SESSION__DURATION')
+            ses_dur = environ.get('SESSION_DURATION')
             self.session_duration = int(ses_dur)
         except Exception:
             self.session_duration = 0
@@ -45,5 +45,6 @@ class SessionExpAuth(SessionAuth):
                     )
                 if datetime.now() < exp_time:
                     return user_id
+            return None
         except Exception:
             return None
