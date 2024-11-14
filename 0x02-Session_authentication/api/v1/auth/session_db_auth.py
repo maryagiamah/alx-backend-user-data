@@ -24,8 +24,6 @@ class SessionDBAuth(SessionExpAuth):
     def user_id_for_session_id(self, session_id=None):
         """returns the User ID by requesting UserSession"""
 
-        users = UserSession.search({"session_id": session_id})
-
         try:
             users = UserSession.search({"session_id": session_id})
             if users[0].created_at:
@@ -36,7 +34,7 @@ class SessionDBAuth(SessionExpAuth):
                         seconds=self.session_duration
                     )
                 if datetime.now() < exp_time:
-                    return user_id
+                    return users[0].user_id
             return None
         except Exception:
             return None
@@ -45,6 +43,7 @@ class SessionDBAuth(SessionExpAuth):
         """destroys the UserSession based on the Session ID"""
 
         try:
+            session_id = self.session_cookie(request)
             users = UserSession.search({"session_id": session_id})
 
             if users[0].user_id:
