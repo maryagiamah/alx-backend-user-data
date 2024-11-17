@@ -16,7 +16,7 @@ class SessionDBAuth(SessionExpAuth):
         if ses_id is None:
             return None
 
-        user = UserSession({"user_id": user_id, "session_id": ses_id})
+        user = UserSession(**{"user_id": user_id, "session_id": ses_id})
         user.save()
 
         return ses_id
@@ -27,13 +27,15 @@ class SessionDBAuth(SessionExpAuth):
         try:
             users = UserSession.search({"session_id": session_id})
             if users[0].created_at:
+
                 if self.session_duration <= 0:
                     return users[0].user_id
 
                 exp_time = users[0].created_at + timedelta(
                         seconds=self.session_duration
                     )
-                if datetime.now() < exp_time:
+
+                if datetime.utcnow() < exp_time:
                     return users[0].user_id
             return None
         except Exception:
