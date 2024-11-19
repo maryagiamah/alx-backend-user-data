@@ -65,3 +65,45 @@ class Auth:
             return updates['session_id']
         except NoResultFound:
             pass
+
+    def get_user_from_session_id(self, session_id: str) -> User:
+        """returns the corresponding User"""
+
+        try:
+            return self._db.find_user_by(session_id=session_id)
+        except Exception:
+            pass
+
+    def destroy_session(self, user_id: int) -> None:
+        """updates the corresponding user session ID"""
+        try:
+            user = self._db.find_user_by(id=user_id)
+            updates = {"session_id": None}
+
+            self._db.update_user(user.id, **updates)
+        except NoResultFound:
+            pass
+
+    def get_reset_password_token(email: str) -> str:
+        """Find the user corresponding to the email"""
+
+        try:
+            user = self._db.find_user_by(email=email)
+            updates = {"reset_token": _generate_uuid()}
+            self._db.update_user(user.id, **updates)
+            return updates["reset_token"]
+        except NoResultFound:
+            raise ValueError
+
+    def update_password(reset_token: str, password: str) -> None:
+        """Use the reset_token to find the corresponding user"""
+
+        try:
+            user = self._db.find_user_by(reset_token=reset_token)
+            updates = {
+                    "hashed_password": _hash_password(password),
+                    "reset_token": None
+                    }
+            self._db.update_user(user.id, **updates)
+        except NoResultFound:
+            raise ValueError
