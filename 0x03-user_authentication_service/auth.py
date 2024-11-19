@@ -62,6 +62,7 @@ class Auth:
             updates = {"session_id": _generate_uuid()}
 
             self._db.update_user(user.id, **updates)
+
             return updates['session_id']
         except NoResultFound:
             pass
