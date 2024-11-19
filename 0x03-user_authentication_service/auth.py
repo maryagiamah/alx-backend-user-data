@@ -85,7 +85,7 @@ class Auth:
         except NoResultFound:
             pass
 
-    def get_reset_password_token(email: str) -> str:
+    def get_reset_password_token(self, email: str) -> str:
         """Find the user corresponding to the email"""
 
         try:
@@ -96,7 +96,7 @@ class Auth:
         except NoResultFound:
             raise ValueError
 
-    def update_password(reset_token: str, password: str) -> None:
+    def update_password(self, reset_token: str, password: str) -> None:
         """Use the reset_token to find the corresponding user"""
 
         try:

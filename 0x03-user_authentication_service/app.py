@@ -2,19 +2,20 @@
 """Flask app"""
 from flask import Flask, jsonify, request, abort, redirect
 from auth import Auth
+from typing import Any, Tuple
 
 app = Flask(__name__)
 AUTH = Auth()
 
 
 @app.route("/", methods=['GET'])
-def home() -> str:
+def home() -> Tuple[Any, int]:
     """Return welcome page"""
     return jsonify({"message": "Bienvenue"})
 
 
 @app.route("/users", methods=['POST'])
-def users() -> str:
+def users() -> Tuple[Any, int]:
     """Add user from post data"""
 
     email = request.form.get('email')
@@ -30,7 +31,7 @@ def users() -> str:
 
 
 @app.route("/sessions", methods=['POST'])
-def login() -> str:
+def login() -> Tuple[Any, int]:
     """create user_session"""
 
     email = request.form.get('email')
@@ -45,7 +46,7 @@ def login() -> str:
 
 
 @app.route("/sessions", methods=['DELETE'])
-def logout() -> str:
+def logout() -> Tuple[Any, int]:
     """destroy the session and redirect the user to GET """
 
     session_id = request.cookies.get('session_id')
@@ -60,7 +61,7 @@ def logout() -> str:
 
 
 @app.route("/profile", methods=['GET'])
-def profile() -> str:
+def profile() -> Tuple[Any, int]:
     """Use it to find the user"""
 
     session_id = request.cookies.get('session_id')
@@ -73,7 +74,7 @@ def profile() -> str:
 
 
 @app.route("/reset_password", methods=['POST'])
-def get_reset_password_token() -> str:
+def get_reset_password_token() -> Tuple[Any, int]:
     """generate a new token"""
 
     email = request.form.get("email")
@@ -86,7 +87,7 @@ def get_reset_password_token() -> str:
 
 
 @app.route("/reset_password", methods=['PUT'])
-def update_password() -> str:
+def update_password() -> Tuple[Any, int]:
     """Update the password"""
 
     email = request.form.get("email")
@@ -94,7 +95,7 @@ def update_password() -> str:
     new_password = request.form.get("new_password")
 
     try:
-        Auth.update_password(reset_token, new_password)
+        AUTH.update_password(reset_token, new_password)
     except ValueError:
         abort(403)
     return jsonify({"email": email, "message": "Password updated"}), 200
