@@ -9,13 +9,13 @@ AUTH = Auth()
 
 
 @app.route("/", methods=['GET'])
-def home():
+def home() -> str:
     """Return welcome page"""
     return jsonify({"message": "Bienvenue"})
 
 
 @app.route("/users", methods=['POST'])
-def users():
+def users() -> str:
     """Add user from post data"""
 
     email = request.form.get('email')
@@ -31,7 +31,7 @@ def users():
 
 
 @app.route("/sessions", methods=['POST'])
-def login():
+def login() -> str:
     """create user_session"""
 
     email = request.form.get('email')
@@ -46,7 +46,7 @@ def login():
 
 
 @app.route("/sessions", methods=['DELETE'])
-def logout():
+def logout() -> str:
     """destroy the session and redirect the user to GET /"""
 
     session_id = request.cookies.get('session_id')
@@ -60,7 +60,7 @@ def logout():
 
 
 @app.route("/profile", methods=['GET'])
-def profile():
+def profile() -> str:
     """Use it to find the user"""
 
     session_id = request.cookies.get('session_id')
@@ -73,7 +73,7 @@ def profile():
 
 
 @app.route("/reset_password", methods=['POST'])
-def get_reset_password_token():
+def get_reset_password_token() -> str:
     """generate a new token"""
 
     email = request.form.get("email")
@@ -86,7 +86,7 @@ def get_reset_password_token():
 
 
 @app.route("/reset_password", methods=['PUT'])
-def update_password():
+def update_password() -> str:
     """Update the password"""
 
     email = request.form.get("email")
@@ -98,6 +98,7 @@ def update_password():
     except ValueError:
         abort(403)
     return jsonify({"email": email, "message": "Password updated"}), 200
+
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port="5000")
