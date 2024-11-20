@@ -65,7 +65,7 @@ class Auth:
 
             return updates['session_id']
         except NoResultFound:
-            pass
+            return None
 
     def get_user_from_session_id(self, session_id: str) -> User:
         """returns the corresponding User"""
@@ -73,7 +73,7 @@ class Auth:
         try:
             return self._db.find_user_by(session_id=session_id)
         except Exception:
-            pass
+            return None
 
     def destroy_session(self, user_id: int) -> None:
         """updates the corresponding user session ID"""
@@ -83,7 +83,8 @@ class Auth:
 
             self._db.update_user(user.id, **updates)
         except NoResultFound:
-            pass
+            return None
+        return None
 
     def get_reset_password_token(self, email: str) -> str:
         """Find the user corresponding to the email"""

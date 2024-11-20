@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Flask app"""
-from flask import Flask, jsonify, request, abort, redirect
+from flask import Flask, jsonify, request, abort, redirect, url_for
 from auth import Auth
 from typing import Any, Tuple
 
@@ -57,7 +57,7 @@ def logout():
         abort(403)
 
     AUTH.destroy_session(user.id)
-    return redirect('/')
+    return redirect(url_for(home))
 
 
 @app.route("/profile", methods=['GET'])
@@ -83,7 +83,8 @@ def get_reset_password_token():
         token = AUTH.get_reset_password_token(email)
     except Exception:
         abort(403)
-    return jsonify({"email": email, "reset_token": token}), 200
+    else:
+        return jsonify({"email": email, "reset_token": token}), 200
 
 
 @app.route("/reset_password", methods=['PUT'])
@@ -98,7 +99,8 @@ def update_password():
         AUTH.update_password(reset_token, new_password)
     except ValueError:
         abort(403)
-    return jsonify({"email": email, "message": "Password updated"}), 200
+    else:
+        return jsonify({"email": email, "message": "Password updated"}), 200
 
 
 if __name__ == "__main__":
