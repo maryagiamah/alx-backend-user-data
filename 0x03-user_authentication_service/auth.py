@@ -79,9 +79,10 @@ class Auth:
         """updates the corresponding user session ID"""
         try:
             user = self._db.find_user_by(id=user_id)
-            updates = {"session_id": None}
+            user.session_id = None
+#           updates = {"session_id": None}
 
-            self._db.update_user(user.id, **updates)
+#           self._db.update_user(user.id, **updates)
         except NoResultFound:
             pass
 
