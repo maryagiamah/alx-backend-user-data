@@ -9,13 +9,13 @@ AUTH = Auth()
 
 
 @app.route("/", methods=['GET'])
-def home() -> Tuple[Any, int]:
+def home():
     """Return welcome page"""
     return jsonify({"message": "Bienvenue"})
 
 
 @app.route("/users", methods=['POST'])
-def users() -> Tuple[Any, int]:
+def users():
     """Add user from post data"""
 
     email = request.form.get('email')
@@ -31,7 +31,7 @@ def users() -> Tuple[Any, int]:
 
 
 @app.route("/sessions", methods=['POST'])
-def login() -> Tuple[Any, int]:
+def login():
     """create user_session"""
 
     email = request.form.get('email')
@@ -46,7 +46,7 @@ def login() -> Tuple[Any, int]:
 
 
 @app.route("/sessions", methods=['DELETE'])
-def logout() -> Tuple[Any, int]:
+def logout():
     """destroy the session and redirect the user to GET """
 
     session_id = request.cookies.get('session_id')
@@ -61,7 +61,7 @@ def logout() -> Tuple[Any, int]:
 
 
 @app.route("/profile", methods=['GET'])
-def profile() -> Tuple[Any, int]:
+def profile():
     """Use it to find the user"""
 
     session_id = request.cookies.get('session_id')
@@ -74,7 +74,7 @@ def profile() -> Tuple[Any, int]:
 
 
 @app.route("/reset_password", methods=['POST'])
-def get_reset_password_token() -> Tuple[Any, int]:
+def get_reset_password_token():
     """generate a new token"""
 
     email = request.form.get("email")
@@ -87,7 +87,7 @@ def get_reset_password_token() -> Tuple[Any, int]:
 
 
 @app.route("/reset_password", methods=['PUT'])
-def update_password() -> Tuple[Any, int]:
+def update_password():
     """Update the password"""
 
     email = request.form.get("email")
