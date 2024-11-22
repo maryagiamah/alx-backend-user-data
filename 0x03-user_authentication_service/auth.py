@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Auth"""
+"""Authentication"""
 import bcrypt
 import uuid
 from db import DB
